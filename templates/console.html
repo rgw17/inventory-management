@@ -17,21 +17,32 @@
 
     <div class="container">
         <h2>Welcome, {{username}}</h2>
-        <br>
-        <a class="btn btn-primary" href="/view_inventory" role="button">View Inventory</a>
         <br><br>
         <a class="btn btn-primary" href="/add_item" role="button">Add Item</a>
         <br><br>
-        <a class="btn btn-primary" href="/remove_item" role="button">Remove Item</a>
+        <a class="btn btn-primary" href="/remove_item_page" role="button">Remove Item</a>
         <br><br>
-        <a class="btn btn-primary" href="/create_category" role="button">Create Category</a>
+        <a class="btn btn-secondary" href="#" role="button">Create Category</a>
         <br><br>
-        <a class="btn btn-primary" href="/remove_category" role="button">Remove Category</a>
-
-
-
+        <a class="btn btn-secondary" href="#" role="button">Remove Category</a>
     </div>
-      </div>
+    <br>
+    </div>
+    <div  class="mx-auto" style="width: 1000;">
+        <h2>Items:</h2>
+        <br><br>
+        {% for item in items %}
+        <h4>
+            ID: {{item.id}} 
+            Description: {{item.description}}
+            Date created: {{item.date_created}}
+            Category: {{item.category}}
+        </h4>
+        <a href="/remove_item{{item.id }}" class="btn btn-outline-danger btn-sm"> Remove </a>
+        <br><br>
+        {% endfor %}
+    </div>
+      
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

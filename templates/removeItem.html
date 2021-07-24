@@ -19,10 +19,10 @@
         <h2>Remove Item</h2>
         <br><br>
         <h5>Item ID:</h5>
-        <form action="/remove_item" method="POST">
-        <div class="form-group">
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-          </div>
+        <form action="/remove_item_page" method="POST">
+          <div class="form-group">
+            <input type="text" class="form-control" id="id" placeholder="Description" name="id">
+        </div>
           <button type="submit" class="btn btn-primary">Submit</button>
           <a class="btn btn-primary" href="/login" role="button">Cancel</a>
         </form>

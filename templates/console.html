@@ -15,19 +15,22 @@
   <body>
     <div class="mx-auto" style="width: 200px;">
 
-    <form  action="/login" method="POST">
-        <h3>Login</h3>
+    <div class="container">
+        <h2>Welcome, {{username}}</h2>
         <br>
-        <div class="row">
-          <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Username" name="username">
-        </div>
-        <br>
-        <div class="row">
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-        </div>
-        <br>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+        <a class="btn btn-primary" href="/view_inventory" role="button">View Inventory</a>
+        <br><br>
+        <a class="btn btn-primary" href="/add_item" role="button">Add Item</a>
+        <br><br>
+        <a class="btn btn-primary" href="/remove_item" role="button">Remove Item</a>
+        <br><br>
+        <a class="btn btn-primary" href="/create_category" role="button">Create Category</a>
+        <br><br>
+        <a class="btn btn-primary" href="/remove_category" role="button">Remove Category</a>
+
+
+
+    </div>
       </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

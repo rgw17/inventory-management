@@ -13,21 +13,40 @@
     <title>Hello, world!</title>
   </head>
   <body>
-    <div class="mx-auto" style="width: 200px;">
-
-    <form  action="/login" method="POST">
-        <h3>Login</h3>
-        <br>
-        <div class="row">
-          <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Username" name="username">
-        </div>
-        <br>
-        <div class="row">
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-        </div>
-        <br>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+    <div class="mx-auto" style="width: 1200px;">
+        <br><br>
+        <a class="btn btn-primary" href="/login" role="button">Main Menu</a>
+        <br><br>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Category</th>
+                <th scope="col">Date Added</th>
+                <th scope="col">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Computer</td>
+                <td>7/23/21</td>
+                <td>Dell Inspiron</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Computer</td>
+                <td>7/23/21</td>
+                <td>Surface Pro</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Cord</td>
+                <td>7/19/21</td>
+                <td>HDMI -> HDMI cord</td>
+              </tr>
+            </tbody>
+          </table>
       </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

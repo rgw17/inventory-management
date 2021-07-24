@@ -13,21 +13,32 @@
     <title>Hello, world!</title>
   </head>
   <body>
-    <div class="mx-auto" style="width: 200px;">
+    <div class="mx-auto" style="width: 800px;">
 
-    <form  action="/login" method="POST">
-        <h3>Login</h3>
-        <br>
-        <div class="row">
-          <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Username" name="username">
+    <div class="container">
+        <h2>Create Category</h2>
+        <br><br>
+        <h5>Category Name:</h5>
+        <form action="/create_category" method="POST">
+            <br><br>
+        <div class="form-group">
+            <input type="text" class="form-control" id="description" placeholder="Description" name="description">
         </div>
-        <br>
-        <div class="row">
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-        </div>
-        <br>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+        <br><br>
+        <h5>Description:</h5>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Example textarea</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <a class="btn btn-primary" href="/login" role="button">Cancel</a>
+
+          </form>
+
+
+
+
+    </div>
       </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

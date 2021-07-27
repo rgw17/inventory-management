@@ -53,10 +53,19 @@ class Item(db.Model):
 
 @app.route("/")
 def index():
+    # password = 'florida' # The users password
+
+    # salt = os.urandom(32) # A new salt for this user
+    # key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
+    # user = User(username="guest",salt=salt,key=key)
+
+    # db.session.add(user)
+    # db.session.commit()
     errorMessage = ""
     if 'errorMessage' in session:
         errorMessage = session['errorMessage']
     session['errorMessage'] = ""
+
     return render_template("index.html", errorMessage=errorMessage)
 
 @app.route("/writecsv")

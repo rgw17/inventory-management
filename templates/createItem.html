@@ -1,56 +1,109 @@
 <html>
-    <body>
-        <!doctype html>
-<html lang="en">
+
+<body>
+  <!doctype html>
+  <html lang="en">
+
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <title>Inventory Management System</title>
+      <link rel="alternate icon" href="{{ url_for('static', filename='warehouse-solid.svg') }}">
 
-    <title>Hello, world!</title>
+    <head>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script>
+        $(function () {
+         
+          $("#selectpicker").on("change", function () {
+            var selected = $(this).val();
+            if (selected == "Laptop" || selected == "Monitor") {
+              if ($('#requiredBox').length)
+              {
+              }
+              else {
+                $( "#requiredBox" ).remove();
+                $( "#spaceCamp" ).remove();
+                $( "#dragonArmy" ).remove();
+                $("#parentContainer").append("<br><input type='text' class='form-control' id='requiredBox' name='serialNo' placeholder='Serial No.' name='Required' required='true' oninvalid='this.setCustomValidity('Please enter the serial number.')'><div class='form-check' id='spaceCamp'><br><h5>Owner:</h5><input class='form-check-input' type='radio' value='spaceCamp' id='SpaceCAMP' required='true' name='radioBox'><label class='form-check-label' for='flexCheckDefault'>SpaceCAMP</label></div><div class='form-check' id='dragonArmy'><input class='form-check-input' required='true' type='radio' value='dragonArmy' name='radioBox' id='Dragon Army'><label class='form-check-label' for='flexCheckDefault'>Dragon Army</label></div>");
+              }
+            }
+            else if (selected == "Headset") {
+              if ($('#requiredBox').length)
+              {
+              }
+              else{
+                $( "#requiredBox" ).remove();
+                $( "#spaceCamp" ).remove();
+                $( "#dragonArmy" ).remove();
+                $("#parentContainer").append("<br><div class='form-check' id='spaceCamp'><br><h5>Owner:</h5><input class='form-check-input' type='radio' value='spaceCamp' id='SpaceCAMP' required='true' name='radioBox'><label class='form-check-label' for='flexCheckDefault'>SpaceCAMP</label></div><div class='form-check' id='dragonArmy'><input class='form-check-input' required='true' type='radio' value='dragonArmy' name='radioBox' id='Dragon Army'><label class='form-check-label' for='flexCheckDefault'>Dragon Army</label></div>");
+              }
+            }
+            else {
+              $( "#requiredBox" ).remove();
+              $( "#spaceCamp" ).remove();
+              $( "#dragonArmy" ).remove();
+            }
+          });
+        });
+      </script>
+    </head>
   </head>
+
   <body>
     <div class="mx-auto" style="width: 800px;">
 
-    <div class="container">
+      <div class="container">
         <h2>Add Item</h2>
         <br><br>
         <h5>Auto-generated ID:</h5>
-        <form action="/add_item" method="POST">
-            <br><br>
-        <div class="form-group">
-            <input type="text" class="form-control" id="description" placeholder="Description" name="description">
-        </div>
-        <h5>Select Category:</h5>
-        <select class="selectpicker" name="category" multiple>
+        <form action="/add_item" method="POST" >
+          <br><br>
+          <div class="form-group">
+            <input type="text" class="form-control" id="description" required="true" placeholder="Brand" name="description">
+          </div>
+          <h5>Select Category:</h5>
+          <select class="form-select" id="selectpicker" name="category">
             <option>Laptop</option>
             <option>Monitor</option>
             <option>Cord</option>
             <option>Mouse</option>
             <option>Headset</option>
           </select>
-          
-          
+          <br>
+          <div class="container" id="parentContainer">
+            <br><input type='text' class='form-control' id='requiredBox' name='serialNo' placeholder='Serial No.' name='Required' required='true' oninvalid='this.setCustomValidity('Please enter the serial number.')'><div class='form-check' id='spaceCamp'><br><h5>Owner:</h5><input class='form-check-input' type='radio' value='spaceCamp' id='SpaceCAMP' required='true' name='radioBox'><label class='form-check-label' for='flexCheckDefault'>SpaceCAMP</label></div><div class='form-check' id='dragonArmy'><input class='form-check-input' required='true' type='radio' value='dragonArmy' name='radioBox' id='Dragon Army'><label class='form-check-label' for='flexCheckDefault'>Dragon Army</label></div>
+          </div>
+          <br>
           <button type="submit" class="btn btn-primary">Submit</button>
-          <a class="btn btn-primary" href="/dashboard" role="button">Cancel</a>
+          <a class="btn btn-secondary" href="/dashboard" role="button">Cancel</a>
 
-          </form>
-
-
+        </form>
 
 
-    </div>
+
+
       </div>
+    </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"></script>
   </body>
-</html>
-        
-    </body>
+
+  </html>
+
+</body>
+
 </html>

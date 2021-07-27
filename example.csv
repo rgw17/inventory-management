@@ -1,2 +1,8 @@
-2,ASDF,2021-07-26 16:36:02.855345,Laptop
-3,testing,2021-07-26 21:14:12.630340,Monitor
+ID,Brand,Category,Owner,Date added,Serial no.,Added by
+1,"ASUS 18""",Monitor,spaceCamp,2021-07-27 16:48:57.650134,6548674,spacecamp
+2,testing,Headset,N/A,2021-07-27 16:58:44.551204,N/A,spacecamp
+3,"ASUS 18""",Headset,N/A,2021-07-27 16:59:09.575861,N/A,spacecamp
+4,"ASUS 18""",Monitor,spaceCamp,2021-07-27 16:59:28.747599,6548674,spacecamp
+5,ASDF,Monitor,dragonArmy,2021-07-27 17:00:29.889645,6,spacecamp
+6,testing,Headset,N/A,2021-07-27 17:00:41.459046,N/A,spacecamp
+7,ASDF,Headset,spaceCamp,2021-07-27 17:01:56.653932,N/A,spacecamp

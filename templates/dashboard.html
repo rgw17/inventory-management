@@ -4,11 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="author" content="Randall Williams">
     <meta name="generator" content="Hugo 0.84.0">
-    <title>Album example · Bootstrap v5.0</title>
-
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
+    <title>Inventory Management System</title>
+    <link rel="alternate icon" href="{{ url_for('static', filename='warehouse-solid.svg') }}">
 
     
 
@@ -52,26 +51,48 @@
       <div class="col-lg-6 col-md-8 mx-auto">
         <h1 class="fw-light">What would you like to do?</h1>
         <br><br>
-        <a class="btn btn-outline-primary" href="/add_item" role="button">Add Item</a>
-        <a class="btn btn-outline-danger" href="/remove_item_page" role="button">Remove Item</a>
-        <a class="btn btn-outline-warning" href="/writecsv" role="button">Download CSV</a>
+        <a class="btn btn-primary" href="/add_item" role="button">Add Item</a>
+        <a class="btn btn-danger" href="/remove_item_page" role="button">Remove Item</a>
+        <a class="btn btn-warning" href="/writecsv" role="button">Download CSV</a>
 
       </div>
     </div>
   </section>
   <div class="album py-5 bg-light">
     <div class="container">
-      <h2>Items:</h2>
-            <br><br>
-            {% for item in items %}
-            <h4>
-              ID: {{item.id}} |
-              Description: {{item.description}} |
-              Date created: {{item.date_created}} |
-              Category: {{item.category}}
-            </h4>
-            {% endfor %}
+      <div class="d-flex justify-content-center">
+        <h3>Inventory</h3>
+      </div>
 
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">ID</th>
+            <th scope="col">Brand</th>
+            <th scope="col">Category</th>
+            <th scope="col">Owner</th>
+            <th scope="col">Date added</th>
+            <th scope="col">Serial no.</th>
+            <th scope="col">Added by</th>
+          </tr>
+        </thead>
+        <tbody>
+          <br><br>
+          {% for item in items %}
+          <tr>
+            <td><a href="/remove_item{{item.id }}" onclick="return confirm('Are you sure you want to delete this item?')" class="btn btn-outline-danger btn-sm"> X </a></td>
+            <th scope="row">{{item.id}}</th>
+            <td>{{item.description}}</td>
+            <td>{{item.category}}</td>
+            <td>{{item.owner}}</td>
+            <td>{{item.date_created}}</td>
+            <td>{{item.serialNo}}</td>
+            <td>{{item.added_by}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
   </div>
 </main>
 

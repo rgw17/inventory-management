@@ -5,11 +5,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
-  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="author" content="Mark Otto, Jacob Thornton, Randall Williams and Bootstrap contributors">
   <meta name="generator" content="Hugo 0.84.0">
-  <title>Signin Template · Bootstrap v5.0</title>
+  <title>Inventory Management System</title>
 
   <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
+  <link rel="alternate icon" href="{{ url_for('static', filename='warehouse-solid.svg') }}">
 
 
 
@@ -65,11 +66,11 @@
         <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
     
         <div class="form-floating">
-          <input type="text" class="form-control" id="floatingInput" placeholder="Username" name="username">
+          <input type="text" class="form-control" id="floatingInput" required="true" placeholder="Username" name="username">
           <label for="floatingInput">Email address</label>
         </div>
         <div class="form-floating">
-          <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+          <input type="password" class="form-control" id="floatingPassword" required="true" placeholder="Password" name="password">
           <label for="floatingPassword">Password</label>
         </div>
         <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>

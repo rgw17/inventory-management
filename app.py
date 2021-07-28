@@ -9,6 +9,9 @@ import sqlite3
 import csv
 import hashlib
 import os
+import random
+import json
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///item.db'
 app.secret_key = "random dancing"
@@ -47,8 +50,6 @@ class Item(db.Model):
     # Function to return string when we add something
     def __rep__(self):
         return '<Unique ID %r>' % self.id
-
-
 
 # class Category(db.Model):
 #     __tablename__ = 'category'
@@ -114,7 +115,28 @@ def login():
 def dashboard():
     items = Item.query.order_by(Item.date_created)
     return render_template("dashboard.html", username=current_user.username, items=items)
-    
+
+@app.route("/data", methods=['POST','GET'])
+def data():
+    newIds = []
+    items = Item.query.order_by(Item.date_created)
+    if request.method == "POST":
+        idList=request.json
+        print(idList, file=sys.stderr)
+        for item in items:
+            for id in idList:
+                match = False
+                if str(item.id) == str(id):
+                    match = True
+                    break
+            if not match:
+                print(str(item.id) + " Not found ", file=sys.stderr)
+
+                newIds.append(item)
+    itemPayload = itemSerializer(newIds)
+
+    return json.dumps({'success':True, 'payload':itemPayload}), 200, {'ContentType':'application/json'} 
+
 
 @app.route('/home')
 @login_required
@@ -243,6 +265,25 @@ def remove_category():
     if request.method == 'POST':
         # add item to database
         return redirect(url_for('dashboard'))
+
+def itemSerializer(items):
+    itemPayload = {}
+    for item in items:
+        stuff=[]
+        stuff.append(item.id)
+        stuff.append(item.description)
+        stuff.append(item.category)
+        stuff.append(item.owner)
+        stuff.append(item.date_created.strftime('%m/%d/%Y'))
+        stuff.append(item.serialNo)
+        stuff.append(item.added_by)
+        stuff.append(item.location)
+        if item.receipt:
+            stuff.append("Yes")
+        else:
+            stuff.append("No")
+        itemPayload[item.id] = stuff 
+    return itemPayload
 
 if __name__ == '__main__':
     app.run(debug=True)

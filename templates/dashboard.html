@@ -11,11 +11,37 @@
    <link rel="alternate icon" href="{{ url_for('static', filename='warehouse-solid.svg') }}">
 
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
    <!-- Bootstrap core CSS -->
    <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
 
    <style>
+      @-webkit-keyframes yellow-fade {
+         0% {
+            background: #8FBC8F;
+         }
+
+         100% {
+            background: none;
+         }
+      }
+
+      @keyframes yellow-fade {
+         0% {
+            background: #8FBC8F;
+         }
+
+         100% {
+            background: none;
+         }
+      }
+
+      .highlight, #highlight {
+         -webkit-animation: yellow-fade 2s ease-in 1;
+         animation: yellow-fade 2s ease-in 1;
+      }
+
       .bd-placeholder-img {
          font-size: 1.125rem;
          text-anchor: middle;
@@ -50,6 +76,55 @@
          }
       });
    </script>
+   <script>
+      $(document).ready(function () {
+         var currentUrl = window.location.href;
+         setInterval(function () {
+            data = getElementsById("itemId")
+
+            $.ajax({
+               type: "POST",
+               url: "{{url_for('data')}}",
+               data: JSON.stringify(data, null, '\t'),
+               contentType: 'application/json;charset=UTF-8',
+               success: function (response) {
+                  console.log(response);
+                  var returnedData = JSON.parse(response);
+                  for (var key in returnedData.payload) {
+                     if (returnedData.payload.hasOwnProperty(key)) {
+                        newTable = '<tr><td id="highlight"><a href="/remove_item' + key + '" onclick="return confirm(`Are you sure you want to delete this item?`)" id="highlight" class="btn btn-outline-danger btn-sm"> X </a></td><th scope="row" class="highlight" id="itemId">' + key + '</th>'
+                        values = returnedData.payload[key];
+                        for (var i = 1; i < values.length; i++) {
+                           temp = "<td id='highlight'>" + values[i] + "</td>"
+                           newTable = newTable.concat(temp)
+                        }
+                        console.log(newTable)
+                        var ending = '</tr>'
+                        newTable = newTable.concat(ending)
+                        var newRow = document.getElementById('mainTable').insertRow();
+                        newRow.innerHTML = newTable;
+                        console.log(key + " -> " + returnedData.payload[key]);
+                     }
+                  }
+               },
+               error: function (error) {
+                  console.log(error);
+               }
+            });
+         }, 3000);
+      });
+   </script>
+   <script>
+      function getElementsById(elementID) {
+         var elementCollection = new Array();
+         var allElements = document.getElementsByTagName("*");
+         for (i = 0; i < allElements.length; i++) {
+            if (allElements[i].id == elementID)
+               elementCollection.push(allElements[i].innerHTML);
+         }
+         return elementCollection;
+      }
+   </script>
 </head>
 
 <body>
@@ -60,7 +135,9 @@
 
 
    <main>
+      <div id="liveUpdates">
 
+      </div>
       <section class="py-5 text-center container">
          <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
@@ -93,15 +170,15 @@
                      <th scope="col">Receipt</th>
                   </tr>
                </thead>
-               <tbody>
+               <tbody id=#mainTableBody>
                   <br><br>
                   {% for item in items %}
                   <tr>
                      <td><a href="/remove_item{{item.id }}"
                            onclick="return confirm('Are you sure you want to delete this item?')"
                            class="btn btn-outline-danger btn-sm"> X </a></td>
-                     <th scope="row">{{item.id}}</th>
-                     <td>{{item.description}}</td> 
+                     <th scope="row" id="itemId">{{item.id}}</th>
+                     <td>{{item.description}}</td>
                      <td>{{item.category}}</td>
                      <td>{{item.owner}}</td>
                      <td>{{item.date_created}}</td>
@@ -156,19 +233,19 @@
                   <tr>
                      <th>Receipt</th>
                      {% if item.receipt %}
-                        <td>Yes</td>
+                     <td>Yes</td>
                      {% else: %}
-                        <td>No</td>
+                     <td>No</td>
                      {% endif %}
                   </tr>
                   <tr>
                      <td><a href="/remove_item{{item.id }}"
-                        onclick="return confirm('Are you sure you want to delete this item?')"
-                        class="btn btn-outline-danger btn-sm"> X </a></td>
-                     
+                           onclick="return confirm('Are you sure you want to delete this item?')"
+                           class="btn btn-outline-danger btn-sm"> X </a></td>
+
                   </tr>
                   {% endfor %}
-                  
+
                </tbody>
             </table>
          </div>

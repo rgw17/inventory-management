@@ -27,6 +27,7 @@ class User(UserMixin, db.Model):
 
 
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -41,6 +42,8 @@ class Item(db.Model):
     added_by = db.Column(db.String(30), nullable=False)
     serialNo = db.Column(db.String(50), nullable=False)
     owner = db.Column(db.String(20), nullable=False)
+    location = db.Column(db.String(20), nullable=False)
+    receipt = db.Column(db.Boolean, default=False, nullable=False)
     # Function to return string when we add something
     def __rep__(self):
         return '<Unique ID %r>' % self.id
@@ -53,14 +56,6 @@ class Item(db.Model):
 
 @app.route("/")
 def index():
-    # password = 'florida' # The users password
-
-    # salt = os.urandom(32) # A new salt for this user
-    # key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
-    # user = User(username="guest",salt=salt,key=key)
-
-    # db.session.add(user)
-    # db.session.commit()
     errorMessage = ""
     if 'errorMessage' in session:
         errorMessage = session['errorMessage']
@@ -72,7 +67,7 @@ def index():
 def unknown():
     items = Item.query.order_by(Item.date_created)
     masterList = []
-    header = ['ID','Brand','Category','Owner','Date added','Serial no.','Added by']
+    header = ['ID','Brand','Category','Owner','Date added','Serial no.','Added by','Location','Receipt']
     for item in items:
         stuff=[]
         stuff.append(item.id)
@@ -82,6 +77,11 @@ def unknown():
         stuff.append(item.date_created)
         stuff.append(item.serialNo)
         stuff.append(item.added_by)
+        stuff.append(item.location)
+        if item.receipt:
+            stuff.append("Yes")
+        else:
+            stuff.append("No")
         masterList.append(stuff)
     with open('inventory.csv', mode='w', newline="") as employee_file:
         employee_writer = csv.writer(employee_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
@@ -154,9 +154,16 @@ def create_item():
         try:
             description = request.form["description"]
             category = request.form['category']
-        except:
+            location = request.form['location']
+            receipt = request.form.getlist('receipt')
+            if receipt:
+                receipt = True
+            else:
+                receipt = False
+        except Exception as e:
             errorMessage="Error: you left one or more fields empty."
             return render_template("error.html", errorMessage=errorMessage)
+            
         if not description:
             errorMessage="Error: you left one or more fields empty."
             return render_template("error.html", errorMessage=errorMessage)
@@ -173,10 +180,7 @@ def create_item():
             except:
                 errorMessage="There was an error processing your request."
                 return render_template("error.html", errorMessage=errorMessage)
-
-        
-
-        new_item = Item(description=description, category=category, added_by=current_user.username, serialNo=serialNo, owner=owner)
+        new_item = Item(description=description, category=category, added_by=current_user.username, serialNo=serialNo, owner=owner, location=location, receipt=receipt)
 
         try:
             db.session.add(new_item)

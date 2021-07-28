@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Randall Williams">
+  <meta name="generator" content="Hugo 0.84.0">
+  <title>Inventory Management System</title>
+  <link rel="alternate icon" href="{{ url_for('static', filename='warehouse-solid.svg') }}">
+
+
+
+  <!-- Bootstrap core CSS -->
+  <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
+
+  <style>
+    .table-responsive-stack tr {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+      flex-direction: row;
+    }
+
+
+    .table-responsive-stack td,
+    .table-responsive-stack th {
+      display: block;
+      /*      
+   flex-grow | flex-shrink | flex-basis   */
+      -ms-flex: 1 1 auto;
+      flex: 1 1 auto;
+    }
+
+    .table-responsive-stack .table-responsive-stack-thead {
+      font-weight: bold;
+    }
+
+    @media screen and (max-width: 768px) {
+      .table-responsive-stack tr {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        border-bottom: 3px solid #ccc;
+        display: block;
+
+      }
+
+      /*  IE9 FIX   */
+      .table-responsive-stack td {
+        float: left\9;
+        width: 100%;
+      }
+    }
+
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    #logoutbox {
+      padding-right: 3%;
+      padding-top: 3%;
+    }
+  </style>
+
+
+</head>
+
+<body>
+  <div class="d-flex justify-content-end" id="logoutbox">
+    <a class="btn btn-primary" href="/logout" role="button">Logout</a>
+
+  </div>
+
+
+  <main>
+
+    <section class="py-5 text-center container">
+      <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+          <h1 class="fw-light">What would you like to do?</h1>
+          <br><br>
+          <a class="btn btn-primary" href="/add_item" role="button">Add Item</a>
+          <a class="btn btn-danger" href="/remove_item_page" role="button">Remove Item</a>
+          <a class="btn btn-warning" href="/writecsv" role="button">Download CSV</a>
+
+        </div>
+      </div>
+    </section>
+  </main>
+  <table class="table table-bordered table-striped table-responsive-stack" id="tableOne">
+    <thead class="thead-dark">
+      <tr>
+        <th>Name</th>
+        <th>Color</th>
+        <th>Taste</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Apple</td>
+        <td>Green and Red</td>
+        <td>Sweet and Tart</td>
+      </tr>
+      <tr>
+        <td>Banana</td>
+        <td>Yellow</td>
+        <td>Sweet and Mushy</td>
+      </tr>
+      <tr>
+        <td>Mango</td>
+        <td>Yellowish Green</td>
+        <td>Tangy</td>
+      </tr>
+      <tr>
+        <td>Orange</td>
+        <td>Orange</td>
+        <td>Sweet and Tangy</td>
+      </tr>
+      <tr>
+        <td>Blueberry</td>
+        <td>Blue</td>
+        <td>Mild Sweetness</td>
+      </tr>
+    </tbody>
+  </table>
+  <footer class="text-muted py-5">
+    <div class="container">
+      <p class="float-end mb-1">
+        <a href="#">Back to top</a>
+      </p>
+    </div>
+  </footer>
+
+
+  <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+
+</html>

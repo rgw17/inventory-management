@@ -15,7 +15,7 @@
    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
    <!-- Bootstrap core CSS -->
    <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
-
+ 
    <style>
       @-webkit-keyframes yellow-fade {
          0% {
@@ -76,11 +76,14 @@
          }
       });
    </script>
+   
    <script>
       $(document).ready(function () {
          var currentUrl = window.location.href;
          setInterval(function () {
             data = getElementsById("itemId")
+            liveUpdates = document.getElementById('liveUpdates')
+           
 
             $.ajax({
                type: "POST",
@@ -89,7 +92,11 @@
                contentType: 'application/json;charset=UTF-8',
                success: function (response) {
                   console.log(response);
+                  
                   var returnedData = JSON.parse(response);
+                  currUsers = returnedData.currUsers // may be in quotes
+                  liveUpdates.innerHTML = currUsers
+                  console.log(currUsers)
                   for (var key in returnedData.payload) {
                      if (returnedData.payload.hasOwnProperty(key)) {
                         newTable = '<tr><td id="highlight"><a href="/remove_item' + key + '" onclick="return confirm(`Are you sure you want to delete this item?`)" id="highlight" class="btn btn-outline-danger btn-sm"> X </a></td><th scope="row" class="highlight" id="itemId">' + key + '</th>'
@@ -102,6 +109,7 @@
                         var ending = '</tr>'
                         newTable = newTable.concat(ending)
                         var newRow = document.getElementById('mainTable').insertRow();
+                        
                         newRow.innerHTML = newTable;
                         console.log(key + " -> " + returnedData.payload[key]);
                      }
@@ -135,8 +143,10 @@
 
 
    <main>
-      <div id="liveUpdates">
-
+      <div>
+         <p>
+            Current users online: <span id="liveUpdates"></span>
+         </p>
       </div>
       <section class="py-5 text-center container">
          <div class="row py-lg-5">

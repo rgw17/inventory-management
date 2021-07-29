@@ -1,5 +1,5 @@
 from logging import error
-from flask import Flask, render_template, request, redirect, url_for, session, send_file
+from flask import Flask, render_template, request, redirect, url_for, session, send_file, g
 import sys
 from flask_login.utils import login_required
 from flask_sqlalchemy import SQLAlchemy
@@ -8,9 +8,8 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 import sqlite3
 import csv
 import hashlib
-import os
-import random
 import json
+from expiringdict import ExpiringDict
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///item.db'
@@ -22,13 +21,13 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+current_sessions = ExpiringDict(max_len=100, max_age_seconds=50)
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(30), unique=True)
     salt = db.Column(db.String(200), unique=False)
     key = db.Column(db.String(200), unique=False)
-
-
 
 
 @login_manager.user_loader
@@ -51,12 +50,10 @@ class Item(db.Model):
     def __rep__(self):
         return '<Unique ID %r>' % self.id
 
-# class Category(db.Model):
-#     __tablename__ = 'category'
-#     category = db.Column(db.String(100), primary_key=True, nullable=False)
 
 @app.route("/")
 def index():
+
     errorMessage = ""
     if 'errorMessage' in session:
         errorMessage = session['errorMessage']
@@ -65,7 +62,9 @@ def index():
     return render_template("index.html", errorMessage=errorMessage)
 
 @app.route("/writecsv")
+@login_required
 def unknown():
+    refreshSession()
     items = Item.query.order_by(Item.date_created)
     masterList = []
     header = ['ID','Brand','Category','Owner','Date added','Serial no.','Added by','Location','Receipt']
@@ -101,6 +100,7 @@ def login():
 
         if user.key == new_key:
             login_user(user)
+            current_sessions[current_user.username] = 1
             return redirect(url_for('dashboard'))
         else:
             session['errorMessage'] = "Invalid credentials."
@@ -113,16 +113,17 @@ def login():
 @app.route("/dashboard", methods=['POST','GET'])
 @login_required
 def dashboard():
+    refreshSession()
     items = Item.query.order_by(Item.date_created)
     return render_template("dashboard.html", username=current_user.username, items=items)
 
 @app.route("/data", methods=['POST','GET'])
+@login_required
 def data():
     newIds = []
     items = Item.query.order_by(Item.date_created)
     if request.method == "POST":
         idList=request.json
-        print(idList, file=sys.stderr)
         for item in items:
             for id in idList:
                 match = False
@@ -134,8 +135,13 @@ def data():
 
                 newIds.append(item)
     itemPayload = itemSerializer(newIds)
+    currUsers = 0
+    for k in current_sessions.keys():
+        if current_sessions[k] == 1:
+            currUsers += 1
+    print(currUsers, file=sys.stderr)
 
-    return json.dumps({'success':True, 'payload':itemPayload}), 200, {'ContentType':'application/json'} 
+    return json.dumps({'success':True, 'payload':itemPayload, 'currUsers':currUsers}), 200, {'ContentType':'application/json'} 
 
 
 @app.route('/home')
@@ -155,16 +161,15 @@ def home():
 @login_required
 def logout():
     logout_user()
+    
     session['errorMessage'] = "You are logged out!"
     return redirect(url_for('index'))
 
-@app.route("/view_inventory")
-@login_required
-def view_inventory():
-    return render_template("inventory.html")
 
 @app.route("/add_item", methods=['POST','GET'])
+@login_required
 def create_item():
+    refreshSession()
     if request.method == 'GET':
         return render_template("createItem.html")
     if request.method == 'POST':
@@ -218,6 +223,7 @@ def create_item():
 @app.route("/remove_item<int:id>", methods=['POST','GET'])
 @login_required
 def remove_item(id):
+    refreshSession()
     item_to_delete = Item.query.get_or_404(id)
     try:
         db.session.delete(item_to_delete)
@@ -232,11 +238,11 @@ def remove_item(id):
 @login_required
 
 def remove_item_page():
+    refreshSession()
     if request.method == 'GET':
         return render_template("removeItem.html")
     if request.method == 'POST':
         id = request.form['id']
-        print("1 ------------------- ", file=sys.stderr)
         try:
             item_to_delete = Item.query.get_or_404(id)
             db.session.delete(item_to_delete)
@@ -250,8 +256,9 @@ def remove_item_page():
 
 @app.route("/create_category", methods=['POST','GET'])
 def create_category():
+    print(current_sessions[current_user.username], file=sys.stderr)
+
     if request.method == 'GET':
-        print("TEST ---------------------------", file=sys.stderr)
         return render_template("createCategory.html")
     if request.method == 'POST':
         # add item to database
@@ -259,8 +266,8 @@ def create_category():
 
 @app.route("/remove_category", methods=['POST','GET'])
 def remove_category():
+    refreshSession();
     if request.method == 'GET':
-        print("TEST ---------------------------", file=sys.stderr)
         return render_template("removeCategory.html")
     if request.method == 'POST':
         # add item to database
@@ -285,5 +292,11 @@ def itemSerializer(items):
         itemPayload[item.id] = stuff 
     return itemPayload
 
+
+def refreshSession():
+    current_sessions[current_user.username] = 1
+
 if __name__ == '__main__':
     app.run(debug=True)
+
+

@@ -102,43 +102,55 @@
         </div>
       </div>
     </section>
+    <div class="album py-5 bg-light">
+      <div class="container">
+        <div class="d-flex justify-content-center">
+          <h3>Inventory</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">ID</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Category</th>
+                <th scope="col">Owner</th>
+                <th scope="col">Date added</th>
+                <th scope="col">Serial no.</th>
+                <th scope="col">Added by</th>
+                <th scope="col">Location</th>
+                <th scope="col">Receipt</th>
+              </tr>
+            </thead>
+            <tbody>
+              <br><br>
+              {% for item in items %}
+              <tr>
+                <td><a href="/remove_item{{item.id }}"
+                    onclick="return confirm('Are you sure you want to delete this item?')"
+                    class="btn btn-outline-danger btn-sm"> X </a></td>
+                <th scope="row">{{item.id}}</th>
+                <td>{{item.description}}</td>
+                <td>{{item.category}}</td>
+                <td>{{item.owner}}</td>
+                <td>{{item.date_created}}</td>
+                <td>{{item.serialNo}}</td>
+                <td>{{item.added_by}}</td>
+                <td>{{item.location}}</td>
+                {% if item.receipt: %}
+                <td>Yes</td>
+                {% else: %}
+                <td>No</td>
+                {%endif%}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
   </main>
-  <table class="table table-bordered table-striped table-responsive-stack" id="tableOne">
-    <thead class="thead-dark">
-      <tr>
-        <th>Name</th>
-        <th>Color</th>
-        <th>Taste</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Apple</td>
-        <td>Green and Red</td>
-        <td>Sweet and Tart</td>
-      </tr>
-      <tr>
-        <td>Banana</td>
-        <td>Yellow</td>
-        <td>Sweet and Mushy</td>
-      </tr>
-      <tr>
-        <td>Mango</td>
-        <td>Yellowish Green</td>
-        <td>Tangy</td>
-      </tr>
-      <tr>
-        <td>Orange</td>
-        <td>Orange</td>
-        <td>Sweet and Tangy</td>
-      </tr>
-      <tr>
-        <td>Blueberry</td>
-        <td>Blue</td>
-        <td>Mild Sweetness</td>
-      </tr>
-    </tbody>
-  </table>
+
   <footer class="text-muted py-5">
     <div class="container">
       <p class="float-end mb-1">

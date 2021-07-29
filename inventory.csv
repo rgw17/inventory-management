@@ -1,4 +1,7 @@
-ID,Brand,Category,Owner,Date added,Serial no.,Added by,Location,Receipt
-1,"ASUS 18""",Laptop,spaceCamp,2021-07-28 15:53:04.048724,asdf,spacecamp,Lodge,No
-2,"ASUS 18""",Monitor,dragonArmy,2021-07-28 15:55:43.118305,adsfasf,spacecamp,SPOC,Yes
-3,"ASUS 18""",Cord,N/A,2021-07-28 15:59:12.311330,N/A,spacecamp,SPOC,No
+ID,Brand,Category,Owner,Date added,Serial no.,Added by,Location,Receipt,ADAP
+1,"ASUS 18""",Cord,N/A,2021-07-29 21:31:01.701500,N/A,guest,SPOC,SpaceCamping,SpaceCounselor
+2,ASDF,Cord,N/A,2021-07-29 21:33:04.355176,N/A,guest,Lodge,aasdf,
+3,testing,Laptop,dragonArmy,2021-07-29 21:35:54.477432,6548674,spacecamp,Lodge,SpaceCamping,SpaceCounselor
+4,testing,Laptop,dragonArmy,2021-07-29 21:37:16.861166,asdf,spacecamp,Lodge,LOL,VIBES
+5,test,Laptop,dragonArmy,2021-07-29 21:37:44.616861,asdfa,spacecamp,Lodge,IDK LMAO,ASDFASDF
+6,u,Laptop,dragonArmy,2021-07-29 21:38:41.858093,u,spacecamp,Lodge,u,u
